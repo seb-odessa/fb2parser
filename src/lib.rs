@@ -29,7 +29,7 @@ mod tests {
         let xml = load_xml("test_data/description.xml");
         assert!(xml.is_ok());
         let obj = FictionBook::new(&xml.unwrap());
-        assert!(obj.is_some());
+        assert!(obj.is_ok());
         let fb: FictionBook = obj.unwrap();
         assert_eq!(
             fb,
