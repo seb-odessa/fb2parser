@@ -65,10 +65,7 @@ pub struct FictionBook {
 }
 
 impl FictionBook {
-    pub fn new(xml: &String) -> Option<Self> {
-        match deserialize(xml.as_bytes()) {
-            Ok(fb) => Some(fb),
-            Err(_) => None,
-        }
+    pub fn new(xml: &String) -> Result<Self, Error> {
+        deserialize(xml.as_bytes())
     }
 }
