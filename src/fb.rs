@@ -68,17 +68,4 @@ impl FictionBook {
     pub fn new(xml: &String) -> Result<Self, Error> {
         deserialize(xml.as_bytes())
     }
-
-    pub fn brief_info(&self) -> String {
-        format!("{:50} - {} {} {} ({}, {})", 
-        self.description.title_info.book_title, 
-        self.description.title_info.author[0].first_name,
-        self.description.title_info.author[0].middle_name,
-        self.description.title_info.author[0].last_name,
-        self.description.title_info.sequence[0].name,
-        self.description.title_info.sequence[0].number
-
-        )
-
-    }
 }
