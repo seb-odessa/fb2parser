@@ -2,8 +2,8 @@
 extern crate serde_derive;
 extern crate serde_xml_rs;
 
+pub type XmlParseError = serde_xml_rs::Error;
 pub mod fb;
-pub use serde_xml_rs::Error;
 
 #[cfg(test)]
 mod tests {
