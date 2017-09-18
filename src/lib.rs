@@ -69,6 +69,15 @@ mod tests {
     }
 
     #[test]
+    fn parse_double_last_name_tag() {
+        let xml = load_xml("test_data/double_last_name.xml");
+        assert!(xml.is_ok());
+        let obj = self::create(xml.unwrap());
+        assert!(obj.is_ok());
+
+    }
+
+    #[test]
     fn parse_description_xml() {
         let xml = load_xml("test_data/description.xml");
         assert!(xml.is_ok());
