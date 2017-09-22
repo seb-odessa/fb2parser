@@ -126,8 +126,8 @@ pub struct DocumentInfo {
     pub src_ocr: String,
     #[serde(rename = "version", default)]
     pub version: String,
-    #[serde(rename = "publisher", default)]
-    pub publisher: Vec<String>,
+    // #[serde(rename = "publisher", default)]
+    // pub publisher: Vec<String>,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
