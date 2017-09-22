@@ -9,7 +9,8 @@ pub fn create(xml: String) -> Result<fb::FictionBook, fb::Error> {
     return try_fast(xml).
         or_else(try_escaped).
         or_else(try_fix_lang).
-        or_else(try_fix_last_name).
+        or_else(try_fix_title_info_double_last_name).
+        or_else(try_fix_doc_info_double_nickname).
         or_else(done);
 }
 
@@ -39,8 +40,16 @@ fn try_fix_lang(xml: String) -> Result<fb::FictionBook, String> {
     }
 }
 
-fn try_fix_last_name(xml: String) -> Result<fb::FictionBook, String> {
+fn try_fix_title_info_double_last_name(xml: String) -> Result<fb::FictionBook, String> {
     let fixed_xml = helper::deduplicate_tags(&xml, "title-info", "last-name");
+    match fb::deserialize(fixed_xml.as_bytes()) {
+        Ok(result) => Ok(result),
+        Err(_) => Err(fixed_xml),
+    }
+}
+
+fn try_fix_doc_info_double_nickname(xml: String) -> Result<fb::FictionBook, String> {
+    let fixed_xml = helper::deduplicate_tags(&xml, "document-info", "nickname");
     match fb::deserialize(fixed_xml.as_bytes()) {
         Ok(result) => Ok(result),
         Err(_) => Err(fixed_xml),
