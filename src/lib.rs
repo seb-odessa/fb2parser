@@ -42,6 +42,7 @@ fn try_fix_lang(xml: String) -> Result<fb::FictionBook, String> {
 
 fn try_fix_title_info_double_last_name(xml: String) -> Result<fb::FictionBook, String> {
     let fixed_xml = helper::deduplicate_tags(&xml, "title-info", "last-name");
+    println!("{}", &fixed_xml);
     match fb::deserialize(fixed_xml.as_bytes()) {
         Ok(result) => Ok(result),
         Err(_) => Err(fixed_xml),
