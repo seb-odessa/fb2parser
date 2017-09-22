@@ -13,7 +13,6 @@ pub fn get_tag(content: &str, tag: &str) -> Option<String> {
     if let Some(spos) = content.find(&beg) {
         if let Some(epos) = content.find(&end) {
             let needle: &str = &content[spos..epos + end.len()];
-            println!("get_tag(..., {}) -> {}", tag, needle);
             return Some(String::from(needle));
         }
     }
@@ -22,7 +21,7 @@ pub fn get_tag(content: &str, tag: &str) -> Option<String> {
 
 pub fn deduplicate_tags(xml: &String, parent: &str, tag: &str) -> String {
     if let Some(content) = get_tag(&xml, parent) {
-        if let Some(value) = get_tag(&xml, tag) {
+        if let Some(value) = get_tag(&content, tag) {
             if let Some(first) = content.find(&value) {
                 if let Some(last) = content.rfind(&value) {
                     if first != last {
@@ -30,6 +29,15 @@ pub fn deduplicate_tags(xml: &String, parent: &str, tag: &str) -> String {
                     }
                 }
             }
+        }
+    }
+    return xml.clone();
+}
+
+pub fn remove_first_tag(xml: &String, parent: &str, tag: &str) -> String {
+    if let Some(content) = get_tag(&xml, parent) {
+        if let Some(value) = get_tag(&content, tag) {
+            return xml.replacen(&value, "", 1);
         }
     }
     return xml.clone();

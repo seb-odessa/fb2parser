@@ -49,7 +49,7 @@ fn try_fix_title_info_double_last_name(xml: String) -> Result<fb::FictionBook, S
 }
 
 fn try_fix_doc_info_double_nickname(xml: String) -> Result<fb::FictionBook, String> {
-    let fixed_xml = helper::deduplicate_tags(&xml, "document-info", "nickname");
+    let fixed_xml = helper::remove_first_tag(&xml, "document-info", "nickname");
     match fb::deserialize(fixed_xml.as_bytes()) {
         Ok(result) => Ok(result),
         Err(_) => Err(fixed_xml),
