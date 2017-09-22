@@ -13,6 +13,7 @@ pub fn get_tag(content: &str, tag: &str) -> Option<String> {
     if let Some(spos) = content.find(&beg) {
         if let Some(epos) = content.find(&end) {
             let needle: &str = &content[spos..epos + end.len()];
+            println!("get_tag({}, {}) -> {}", content, tag, needle);
             return Some(String::from(needle));
         }
     }
