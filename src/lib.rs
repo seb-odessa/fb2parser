@@ -14,9 +14,12 @@ pub fn create(xml: String) -> Result<fb::FictionBook, fb::Error> {
 }
 
 fn try_fast(xml: String) -> Result<fb::FictionBook, String> {
-    match fb::deserialize(xml.as_bytes()) {
+    // Skip heading bytes until '<' will found
+    let clean:String = xml.chars().skip_while(|c| *c != '<').collect();
+
+    match fb::deserialize(clean.as_bytes()) {
         Ok(result) => Ok(result),
-        Err(_) => Err(xml),
+        Err(_) => Err(clean),
     }
 }
 
