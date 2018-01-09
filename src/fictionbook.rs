@@ -46,16 +46,75 @@ impl FictionBook {
     }
 
     #[allow(dead_code)]
-    pub fn get_book_title(&self) -> Option<String> {
+    pub fn get_genres(&self) -> Vec<String> {
+        let mut result = Vec::new();
         if let Some(ref description) = self.description {
-            if let Some(ref title_info) = description.title_info {
-                if let Some(ref book_title) = title_info.book_title {
-                    return Some(book_title.text.clone());
+            if let Some(ref title_info) = description.title_info {                
+                for genre in &title_info.genres {
+                    result.push(genre.text.clone());
                 }
             }
         }
-        None
+        return result;
+    }    
+
+    #[allow(dead_code)]
+    pub fn get_book_authors(&self) -> Vec<(String,String,String,String)> {
+        let mut result = Vec::new();
+        if let Some(ref description) = self.description {            
+            if let Some(ref title_info) = description.title_info {                
+                for author in &title_info.authors {
+                    let first_name = author.first_name.clone().unwrap_or_default().text;
+                    let middle_name = author.middle_name.clone().unwrap_or_default().text;
+                    let last_name = author.last_name.clone().unwrap_or_default().text;
+                    let nickname = author.nickname.clone().unwrap_or_default().text;
+                    result.push((first_name, middle_name, last_name, nickname));
+                }                
+            }
+        }
+        return result;
+    }    
+
+    #[allow(dead_code)]
+    pub fn get_book_title(&self) -> String {
+        let mut result = String::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref title_info) = description.title_info {
+                if let Some(ref book_title) = title_info.book_title {
+                    result = book_title.text.clone();
+                }
+            }
+        }
+        return result;
     }
+
+    #[allow(dead_code)]
+    pub fn get_book_lang(&self) -> String {
+        let mut result = String::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref title_info) = description.title_info {
+                if let Some(ref book_lang) = title_info.lang {
+                    result = book_lang.text.clone();
+                }
+            }
+        }
+        return result;
+    }
+
+    #[allow(dead_code)]
+    pub fn get_book_src_lang(&self) -> String {
+        let mut result = String::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref title_info) = description.title_info {
+                if let Some(ref book_src_lang) = title_info.src_lang {
+                    result = book_src_lang.text.clone();
+                }
+            }
+        }
+        return result;
+    }
+
+
 }
 impl fmt::Display for FictionBook {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
@@ -73,6 +132,11 @@ mod tests {
     use tests::XML;
     use FictionBook;
 
+    fn convert<S: Into<String>>(input: Vec<S>) -> Vec<String>
+    {
+        input.into_iter().map(|s| s.into()).collect::<Vec<_>>()
+    }
+
     #[test]
     fn new() {
         let fb = FictionBook::new(XML.as_bytes()).unwrap();
@@ -80,11 +144,38 @@ mod tests {
     }
 
     #[test]
-    fn get_book_title() {
+    fn test_get_book_title() {
         let fb = FictionBook::new(XML.as_bytes()).unwrap();
         assert_eq!(
-            "Тень его мыслей",
-            &fb.get_book_title().unwrap()
+            "Название книги",
+            fb.get_book_title().as_str()
         );
     }
+    #[test]
+    fn test_get_genres() {
+        let fb = FictionBook::new(XML.as_bytes()).unwrap();
+        assert_eq!(
+            convert(vec!["sf_space", "sf_epic"]),
+            fb.get_genres()
+        );
+    }
+
+    #[test]
+    fn test_get_book_authors() {
+        let fb = FictionBook::new(XML.as_bytes()).unwrap();
+        assert_eq!(
+            vec![
+                (String::from("Иван"), String::from("Иванович"), String::from("Иванов"), String::from("ivan")), 
+                (String::from("Пётр"), String::from("Петрович"), String::from("Петров"), String::from("piter"))],
+            fb.get_book_authors()
+        );
+    }
+    
+    #[test]
+    fn test_get_book_langs() {
+        let fb = FictionBook::new(XML.as_bytes()).unwrap();
+        assert_eq!("ru", fb.get_book_lang().as_str());
+        assert_eq!("ua", fb.get_book_src_lang().as_str());
+    }
+    
 }

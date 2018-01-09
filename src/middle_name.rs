@@ -29,7 +29,7 @@ use xmltree::Element;
 use util::HasFrom;
 
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Default, Clone)]
 pub struct MiddleName {
     pub text: String,
 }

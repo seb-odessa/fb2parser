@@ -96,28 +96,55 @@ mod tests {
     <description>
         <title-info>
             <genre>sf_space</genre>
+            <genre>sf_epic</genre>
             <author>
-                <first-name>Дж. Майкл</first-name>
-                <last-name>Стражинский</last-name>
+                <first-name>Иван</first-name>
+                <middle-name>Иванович</middle-name>
+                <last-name>Иванов</last-name>
+                <nickname>ivan</nickname>
             </author>
-            <book-title>Тень его мыслей</book-title>
+            <author>
+                <first-name>Пётр</first-name>
+                <middle-name>Петрович</middle-name>
+                <last-name>Петров</last-name>
+                <nickname>piter</nickname>
+            </author>            
+            <book-title>Название книги</book-title>
             <keywords>Вавилон 5</keywords>
             <date>1999</date>
             <coverpage>
                 <image l:href=\"Any2FbImgLoader0\"/>
             </coverpage>
             <lang>ru</lang>
+            <src-lang>ua</src-lang>
+            <translator>
+                <first-name>Сидор</first-name>
+                <middle-name>Сидорович</middle-name>
+                <last-name>Сидоров</last-name>
+                <nickname>sidorov</nickname>
+            </translator>
+            <sequence name=\"Вавилон\" number=\"5\"/>
         </title-info>
         <document-info>
             <author>
-                <first-name></first-name>
-                <last-name></last-name>
+                <first-name>Николай</first-name>
+                <last-name>Никулин</last-name>
             </author>
-            <program-used></program-used>
+            <program-used>hand made</program-used>
             <date value=\"2008-03-06\">2008-03-06</date>
             <id></id>
             <version></version>
+            <publisher>Домашняя Библиотека</publisher>
+            <publisher>Сам себе Гуттенберг</publisher>
         </document-info>
+        <publish-info>
+            <book-name>Фатаморгана</book-name>
+            <publisher>Сам себе Гуттенберг</publisher>
+            <city>Москва</city>
+            <year>2017</year>
+            <isbn>ISBN 1-58182-008-9</isbn>
+            <sequence name=\"Серия Вавилон\" number=\"5\"/>
+        </publish-info>
     </description>
     </FictionBook>";
 
