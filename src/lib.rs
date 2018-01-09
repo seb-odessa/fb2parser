@@ -141,7 +141,7 @@ mod tests {
             <book-name>Фатаморгана</book-name>
             <publisher>Сам себе Гуттенберг</publisher>
             <city>Москва</city>
-            <year>2017</year>
+            <year>2018</year>
             <isbn>ISBN 1-58182-008-9</isbn>
             <sequence name=\"Серия Вавилон\" number=\"5\"/>
         </publish-info>

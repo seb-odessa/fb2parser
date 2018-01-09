@@ -46,12 +46,12 @@ impl FictionBook {
     }
 
     #[allow(dead_code)]
-    pub fn get_genres(&self) -> Vec<String> {
+    pub fn get_book_genres(&self) -> Vec<String> {
         let mut result = Vec::new();
         if let Some(ref description) = self.description {
             if let Some(ref title_info) = description.title_info {                
-                for genre in &title_info.genres {
-                    result.push(genre.text.clone());
+                for value in &title_info.genres {
+                    result.push(value.text.clone());
                 }
             }
         }
@@ -61,8 +61,8 @@ impl FictionBook {
     #[allow(dead_code)]
     pub fn get_book_authors(&self) -> Vec<(String,String,String,String)> {
         let mut result = Vec::new();
-        if let Some(ref description) = self.description {            
-            if let Some(ref title_info) = description.title_info {                
+        if let Some(ref description) = self.description {
+            if let Some(ref title_info) = description.title_info {
                 for author in &title_info.authors {
                     let first_name = author.first_name.clone().unwrap_or_default().text;
                     let middle_name = author.middle_name.clone().unwrap_or_default().text;
@@ -80,21 +80,35 @@ impl FictionBook {
         let mut result = String::new();
         if let Some(ref description) = self.description {
             if let Some(ref title_info) = description.title_info {
-                if let Some(ref book_title) = title_info.book_title {
-                    result = book_title.text.clone();
+                if let Some(ref value) = title_info.book_title {
+                    result = value.text.clone();
                 }
             }
         }
         return result;
     }
-
+    #[allow(dead_code)]
+    pub fn get_book_date(&self) -> String {
+        let mut result = String::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref title_info) = description.title_info {
+                if let Some(ref value) = title_info.date {
+                    result = value.value.clone();
+                    if result.is_empty() {
+                        result = value.text.clone();
+                    }
+                }
+            }
+        }
+        return result;
+    }
     #[allow(dead_code)]
     pub fn get_book_lang(&self) -> String {
         let mut result = String::new();
         if let Some(ref description) = self.description {
             if let Some(ref title_info) = description.title_info {
-                if let Some(ref book_lang) = title_info.lang {
-                    result = book_lang.text.clone();
+                if let Some(ref value) = title_info.lang {
+                    result = value.text.clone();
                 }
             }
         }
@@ -106,16 +120,183 @@ impl FictionBook {
         let mut result = String::new();
         if let Some(ref description) = self.description {
             if let Some(ref title_info) = description.title_info {
-                if let Some(ref book_src_lang) = title_info.src_lang {
-                    result = book_src_lang.text.clone();
+                if let Some(ref value) = title_info.src_lang {
+                    result = value.text.clone();
                 }
             }
         }
         return result;
     }
 
+    #[allow(dead_code)]
+    pub fn get_book_translators(&self) -> Vec<(String,String,String,String)> {
+        let mut result = Vec::new();
+        if let Some(ref description) = self.description {            
+            if let Some(ref title_info) = description.title_info {
+                for author in &title_info.translators {
+                    let first_name = author.first_name.clone().unwrap_or_default().text;
+                    let middle_name = author.middle_name.clone().unwrap_or_default().text;
+                    let last_name = author.last_name.clone().unwrap_or_default().text;
+                    let nickname = author.nickname.clone().unwrap_or_default().text;
+                    result.push((first_name, middle_name, last_name, nickname));
+                }                
+            }
+        }
+        return result;
+    }    
 
+    #[allow(dead_code)]
+    pub fn get_book_sequences(&self) -> Vec<(String, u32)> {
+        let mut result = Vec::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref title_info) = description.title_info {
+                for value in &title_info.sequences {
+                    result.push((value.name.clone(), value.number));
+                }
+            }
+        }
+        return result;
+    }   
+
+    #[allow(dead_code)]
+    pub fn get_doc_authors(&self) -> Vec<(String,String,String,String)> {
+        let mut result = Vec::new();
+        if let Some(ref description) = self.description {            
+            if let Some(ref document_info) = description.document_info {
+                for author in &document_info.authors {
+                    let first_name = author.first_name.clone().unwrap_or_default().text;
+                    let middle_name = author.middle_name.clone().unwrap_or_default().text;
+                    let last_name = author.last_name.clone().unwrap_or_default().text;
+                    let nickname = author.nickname.clone().unwrap_or_default().text;
+                    result.push((first_name, middle_name, last_name, nickname));
+                }                
+            }
+        }
+        return result;
+    }
+
+    #[allow(dead_code)]
+    pub fn get_doc_program_used(&self) -> String {
+        let mut result = String::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref document_info) = description.document_info {
+                if let Some(ref value) = document_info.program_used {
+                    result = value.text.clone();
+                }
+            }
+        }
+        return result;
+    }
+
+    #[allow(dead_code)]
+    pub fn get_doc_date(&self) -> String {
+        let mut result = String::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref document_info) = description.document_info {
+                if let Some(ref value) = document_info.date {
+                    result = value.value.clone();
+                    if result.is_empty() {
+                        result = value.text.clone();
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    #[allow(dead_code)]
+    pub fn get_doc_publishers(&self) -> Vec<String> {
+        let mut result = Vec::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref document_info) = description.document_info {                
+                for value in &document_info.publishers {
+                    result.push(value.get_value());
+                }
+            }
+        }
+        return result;
+    }   
+
+    #[allow(dead_code)]
+    pub fn get_publish_book_name(&self) -> String {
+        let mut result = String::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref publish_info) = description.publish_info {
+                if let Some(ref value) = publish_info.book_name {
+                    result = value.text.clone();
+                }
+            }
+        }
+        return result;
+    }
+
+    #[allow(dead_code)]
+    pub fn get_publish_publishers(&self) -> Vec<String> {
+        let mut result = Vec::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref publish_info) = description.publish_info {
+                if let Some(ref value) = publish_info.publisher {
+                    result.push(value.get_value());
+                }
+            }
+        }
+        return result;
+    }
+
+    #[allow(dead_code)]
+    pub fn get_publish_city(&self) -> String {
+        let mut result = String::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref publish_info) = description.publish_info {
+                if let Some(ref value) = publish_info.city {
+                    result = value.text.clone();
+                }
+            }
+        }
+        return result;
+    }
+
+    #[allow(dead_code)]
+    pub fn get_publish_year(&self) -> String {
+        let mut result = String::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref publish_info) = description.publish_info {
+                if let Some(ref value) = publish_info.year {
+                    result = value.text.clone();
+                }
+            }
+        }
+        return result;
+    }
+
+    #[allow(dead_code)]
+    pub fn get_publish_isbn(&self) -> String {
+        let mut result = String::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref publish_info) = description.publish_info {
+                if let Some(ref value) = publish_info.isbn {
+                    result = value.text.clone();
+                }
+            }
+        }
+        return result;
+    }    
+
+    #[allow(dead_code)]
+    pub fn get_publish_sequences(&self) -> Vec<(String, u32)> {
+        let mut result = Vec::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref publish_info) = description.publish_info {
+                for value in &publish_info.sequences {
+                    result.push((value.name.clone(), value.number));
+                }
+            }
+        }
+        return result;
+    }   
+    
 }
+
 impl fmt::Display for FictionBook {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
         if let Some(ref description) = self.description {
@@ -132,11 +313,6 @@ mod tests {
     use tests::XML;
     use FictionBook;
 
-    fn convert<S: Into<String>>(input: Vec<S>) -> Vec<String>
-    {
-        input.into_iter().map(|s| s.into()).collect::<Vec<_>>()
-    }
-
     #[test]
     fn new() {
         let fb = FictionBook::new(XML.as_bytes()).unwrap();
@@ -144,38 +320,60 @@ mod tests {
     }
 
     #[test]
-    fn test_get_book_title() {
+    fn test_title_info() {
         let fb = FictionBook::new(XML.as_bytes()).unwrap();
         assert_eq!(
-            "Название книги",
-            fb.get_book_title().as_str()
+            ["sf_space","sf_epic"].into_iter().map(|&s| String::from(s)).collect::<Vec<_>>(),
+            fb.get_book_genres()
         );
+        assert_eq!(
+            [("Иван", "Иванович", "Иванов", "ivan"), ("Пётр", "Петрович", "Петров", "piter")]
+                .iter().map(|&(fname, mname, lname, nick)| (String::from(fname), String::from(mname), String::from(lname), String::from(nick)))
+                .collect::<Vec<(_,_,_,_)>>(),
+            fb.get_book_authors()
+        );
+        assert_eq!("Название книги",fb.get_book_title().as_str());
+        assert_eq!("1999",fb.get_book_date());
+        assert_eq!("ru", fb.get_book_lang().as_str());
+        assert_eq!("ua", fb.get_book_src_lang().as_str());
+        assert_eq!(
+            vec![("Сидор", "Сидорович", "Сидоров", "sidorov")]
+                .iter().map(|&(fname, mname, lname, nick)| (String::from(fname), String::from(mname), String::from(lname), String::from(nick)))
+                .collect::<Vec<(_,_,_,_)>>(),
+            fb.get_book_translators()
+        );
+        assert_eq!(vec![(String::from("Вавилон"), 5)],fb.get_book_sequences());
     }
+
+
     #[test]
-    fn test_get_genres() {
+    fn test_document_info() {
         let fb = FictionBook::new(XML.as_bytes()).unwrap();
         assert_eq!(
-            convert(vec!["sf_space", "sf_epic"]),
-            fb.get_genres()
+            vec![("Николай", "", "Никулин", "")]
+                .iter().map(|&(fname, mname, lname, nick)| (String::from(fname), String::from(mname), String::from(lname), String::from(nick)))
+                .collect::<Vec<(_,_,_,_)>>(),
+            fb.get_doc_authors()
+        );
+        assert_eq!("hand made",fb.get_doc_program_used().as_str());
+        assert_eq!("2008-03-06",fb.get_doc_date());
+        assert_eq!(
+            ["Домашняя Библиотека", "Сам себе Гуттенберг"].into_iter().map(|&s| String::from(s)).collect::<Vec<_>>(),
+            fb.get_doc_publishers()
         );
     }
 
     #[test]
-    fn test_get_book_authors() {
+    fn test_publish_info() {
         let fb = FictionBook::new(XML.as_bytes()).unwrap();
+        assert_eq!("Фатаморгана",fb.get_publish_book_name());
         assert_eq!(
-            vec![
-                (String::from("Иван"), String::from("Иванович"), String::from("Иванов"), String::from("ivan")), 
-                (String::from("Пётр"), String::from("Петрович"), String::from("Петров"), String::from("piter"))],
-            fb.get_book_authors()
+            ["Сам себе Гуттенберг"].into_iter().map(|&s| String::from(s)).collect::<Vec<_>>(),
+            fb.get_publish_publishers()
         );
+        assert_eq!("Москва",fb.get_publish_city());
+        assert_eq!("2018",fb.get_publish_year());
+        assert_eq!("ISBN 1-58182-008-9",fb.get_publish_isbn());
+        assert_eq!(vec![(String::from("Серия Вавилон"), 5)],fb.get_publish_sequences());    
     }
-    
-    #[test]
-    fn test_get_book_langs() {
-        let fb = FictionBook::new(XML.as_bytes()).unwrap();
-        assert_eq!("ru", fb.get_book_lang().as_str());
-        assert_eq!("ua", fb.get_book_src_lang().as_str());
-    }
-    
 }

@@ -55,6 +55,20 @@ pub struct Publisher {
     pub last_name: Option<LastName>,
     pub nickname: Option<Nickname>,
 }
+impl Publisher {
+    pub fn get_value(&self) -> String {
+        let mut result = self.text.clone();
+        if result.is_empty() {
+            result = format!("{} {} {} ({})"
+                , self.first_name.clone().unwrap_or_default()
+                , self.middle_name.clone().unwrap_or_default()
+                , self.last_name.clone().unwrap_or_default()
+                , self.nickname.clone().unwrap_or_default()
+            );
+        }
+        return result;
+    }
+}
 impl HasFrom<Publisher> for Publisher {
     fn from(element: &Option<&Element>) -> Option<Self> {
         if let Some(ref node) = *element {

@@ -35,8 +35,7 @@
     <description> - 1 (один, обязателен)
 *********************************************************************************************/
 use xmltree::Element;
-use {Author};
-use {ProgramUsed, Date, Publisher};
+use {Author, ProgramUsed, Date, Publisher};
 use util::{HasFrom, all_from, from};
 
 #[derive(Debug, PartialEq)]
@@ -44,7 +43,7 @@ pub struct DocumentInfo{
     pub authors: Vec<Author>,
     pub program_used: Option<ProgramUsed>,
     pub date: Option<Date>,
-    pub publisher:  Option<Publisher>,
+    pub publishers: Vec<Publisher>,
 }
 impl HasFrom<DocumentInfo> for DocumentInfo {
     fn from(element: &Option<&Element>) -> Option<Self> {
@@ -53,7 +52,7 @@ impl HasFrom<DocumentInfo> for DocumentInfo {
                 authors: all_from(node, "author"),
                 program_used: from(node, "program-used"),
                 date: from(node, "date"),
-                publisher: from(node, "publisher")
+                publishers: all_from(node, "publisher")
             })
         } else {
             None

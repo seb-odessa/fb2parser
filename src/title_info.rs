@@ -39,8 +39,7 @@
 **********************************************************************************************/
 use std::fmt;
 use xmltree::Element;
-use {Genre, Author, Translator, Sequence};
-use {BookTitle, Lang, SrcLang};
+use {Genre, Author, Translator, Sequence, BookTitle, Lang, Date, SrcLang};
 use util::{HasFrom, all_from, from};
 
 #[derive(Debug, PartialEq)]
@@ -48,8 +47,9 @@ pub struct TitleInfo {
     pub genres: Vec<Genre>,
     pub authors: Vec<Author>,
     pub translators: Vec<Translator>,
-    pub sequence: Vec<Sequence>,
+    pub sequences: Vec<Sequence>,
     pub book_title: Option<BookTitle>,
+    pub date: Option<Date>,
     pub lang: Option<Lang>,
     pub src_lang: Option<SrcLang>,
 }
@@ -60,8 +60,9 @@ impl HasFrom<TitleInfo> for TitleInfo {
                 genres: all_from(node, "genre"),
                 authors: all_from(node, "author"),
                 translators: all_from(node, "translator"),
-                sequence: all_from(node, "sequence"),
+                sequences: all_from(node, "sequence"),
                 book_title: from(node, "book-title"),
+                date: from(node, "date"),
                 lang: from(node, "lang"),
                 src_lang: from(node, "src-lang"),
             })

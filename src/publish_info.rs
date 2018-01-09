@@ -33,7 +33,7 @@
 *********************************************************************************************/
 use xmltree::Element;
 use {BookName, Publisher, City, Year, Isbn, Sequence};
-use util::{HasFrom, from};
+use util::{HasFrom, all_from, from};
 
 #[derive(Debug, PartialEq)]
 pub struct PublishInfo {
@@ -42,7 +42,7 @@ pub struct PublishInfo {
     pub city: Option<City>,
     pub year: Option<Year>,
     pub isbn: Option<Isbn>,
-    pub sequence: Option<Sequence>,
+    pub sequences: Vec<Sequence>,
 }
 impl HasFrom<PublishInfo> for PublishInfo {
     fn from(element: &Option<&Element>) -> Option<Self> {
@@ -53,7 +53,7 @@ impl HasFrom<PublishInfo> for PublishInfo {
                 city: from(node, "city"),
                 year: from(node, "year"),
                 isbn: from(node, "isbn"),
-                sequence: from(node, "sequence")
+                sequences: all_from(node, "sequence")
             })
         } else {
             None
