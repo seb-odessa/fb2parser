@@ -172,6 +172,19 @@ impl FictionBook {
     }   
 
     #[allow(dead_code)]
+    pub fn get_book_sequences_desc(&self) -> Vec<String> {
+        let mut result = Vec::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref title_info) = description.title_info {
+                for value in &title_info.sequences {
+                    result.push(format!("{} - {}", value.name.clone(), value.number));
+                }
+            }
+        }
+        return result;
+    }
+
+    #[allow(dead_code)]
     pub fn get_doc_authors(&self) -> Vec<(String,String,String,String)> {
         let mut result = Vec::new();
         if let Some(ref description) = self.description {            
@@ -356,6 +369,7 @@ mod tests {
             fb.get_book_translators()
         );
         assert_eq!(vec![(String::from("Вавилон"), 5)],fb.get_book_sequences());
+        assert_eq!(vec![String::from("Вавилон - 5")],fb.get_book_sequences_desc());
     }
 
 
