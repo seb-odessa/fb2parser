@@ -177,7 +177,9 @@ impl FictionBook {
         if let Some(ref description) = self.description {
             if let Some(ref title_info) = description.title_info {
                 for value in &title_info.sequences {
-                    result.push(format!("{} - {}", value.name.clone(), value.number));
+                    if !value.name.is_empty() {
+                        result.push(format!("{} - {}", value.name.clone(), value.number));
+                    }                    
                 }
             }
         }
