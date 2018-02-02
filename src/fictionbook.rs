@@ -76,6 +76,19 @@ impl FictionBook {
     }    
 
     #[allow(dead_code)]
+    pub fn get_book_authors_names(&self) -> Vec<(String)> {
+        let mut result = Vec::new();
+        if let Some(ref description) = self.description {
+            if let Some(ref title_info) = description.title_info {
+                for author in &title_info.authors {
+                    result.push(author.get_full_name());
+                }                
+            }
+        }
+        return result;
+    }   
+
+    #[allow(dead_code)]
     pub fn get_book_title(&self) -> String {
         let mut result = String::new();
         if let Some(ref description) = self.description {
