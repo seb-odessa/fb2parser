@@ -64,10 +64,10 @@ impl FictionBook {
         if let Some(ref description) = self.description {
             if let Some(ref title_info) = description.title_info {
                 for author in &title_info.authors {
-                    let first_name = author.first_name.clone().unwrap_or_default().text;
-                    let middle_name = author.middle_name.clone().unwrap_or_default().text;
-                    let last_name = author.last_name.clone().unwrap_or_default().text;
-                    let nickname = author.nickname.clone().unwrap_or_default().text;
+                    let first_name = author.first_name.clone().unwrap_or_default().get();
+                    let middle_name = author.middle_name.clone().unwrap_or_default().get();
+                    let last_name = author.last_name.clone().unwrap_or_default().get();
+                    let nickname = author.nickname.clone().unwrap_or_default().get();
                     result.push((first_name, middle_name, last_name, nickname));
                 }                
             }

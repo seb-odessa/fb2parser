@@ -30,6 +30,11 @@ use util::HasFrom;
 pub struct Isbn {
     pub text: String,
 }
+impl Isbn {
+    pub fn get(&self)->String {
+        String::from(self.text.trim())
+    }
+}
 impl HasFrom<Isbn> for Isbn {
     fn from(element: &Option<&Element>) -> Option<Self> {
         if let Some(ref node) = *element {

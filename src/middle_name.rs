@@ -33,6 +33,11 @@ use util::HasFrom;
 pub struct MiddleName {
     pub text: String,
 }
+impl MiddleName {
+    pub fn get(&self)->String {
+        String::from(self.text.trim())
+    }
+}
 impl HasFrom<MiddleName> for MiddleName {
     fn from(element: &Option<&Element>) -> Option<Self> {
         if let Some(ref node) = *element {

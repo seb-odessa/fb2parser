@@ -31,6 +31,11 @@ use util::HasFrom;
 pub struct Year {
     pub text: String,
 }
+impl Year {
+    pub fn get(&self)->String {
+        String::from(self.text.trim())
+    }
+}
 impl HasFrom<Year> for Year {
     fn from(element: &Option<&Element>) -> Option<Self> {
         if let Some(ref node) = *element {
