@@ -30,6 +30,11 @@ use util::HasFrom;
 pub struct SrcLang {
     pub text: String,
 }
+impl SrcLang {
+    pub fn get(&self)->String {
+        String::from(self.text.trim())
+    }
+}
 impl HasFrom<SrcLang> for SrcLang {
     fn from(element: &Option<&Element>) -> Option<Self> {
         if let Some(ref node) = *element {
