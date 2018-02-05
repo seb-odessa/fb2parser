@@ -51,7 +51,7 @@ impl FictionBook {
         if let Some(ref description) = self.description {
             if let Some(ref title_info) = description.title_info {                
                 for value in &title_info.genres {
-                    result.push(value.text.clone());
+                    result.push(value.get());
                 }
             }
         }
@@ -76,25 +76,12 @@ impl FictionBook {
     }    
 
     #[allow(dead_code)]
-    pub fn get_book_authors_names(&self) -> Vec<(String)> {
-        let mut result = Vec::new();
-        if let Some(ref description) = self.description {
-            if let Some(ref title_info) = description.title_info {
-                for author in &title_info.authors {
-                    result.push(author.get_full_name());
-                }                
-            }
-        }
-        return result;
-    }   
-
-    #[allow(dead_code)]
     pub fn get_book_title(&self) -> String {
         let mut result = String::new();
         if let Some(ref description) = self.description {
             if let Some(ref title_info) = description.title_info {
                 if let Some(ref value) = title_info.book_title {
-                    result = value.text.clone();
+                    result = value.get();
                 }
             }
         }
@@ -121,7 +108,7 @@ impl FictionBook {
         if let Some(ref description) = self.description {
             if let Some(ref title_info) = description.title_info {
                 if let Some(ref value) = title_info.lang {
-                    result = value.text.clone();
+                    result = value.get();
                 }
             }
         }
@@ -134,7 +121,7 @@ impl FictionBook {
         if let Some(ref description) = self.description {
             if let Some(ref title_info) = description.title_info {
                 if let Some(ref value) = title_info.src_lang {
-                    result = value.text.clone();
+                    result = value.get();
                 }
             }
         }
@@ -147,10 +134,10 @@ impl FictionBook {
         if let Some(ref description) = self.description {            
             if let Some(ref title_info) = description.title_info {
                 for author in &title_info.translators {
-                    let first_name = author.first_name.clone().unwrap_or_default().text;
-                    let middle_name = author.middle_name.clone().unwrap_or_default().text;
-                    let last_name = author.last_name.clone().unwrap_or_default().text;
-                    let nickname = author.nickname.clone().unwrap_or_default().text;
+                    let first_name = author.first_name.clone().unwrap_or_default().get();
+                    let middle_name = author.middle_name.clone().unwrap_or_default().get();
+                    let last_name = author.last_name.clone().unwrap_or_default().get();
+                    let nickname = author.nickname.clone().unwrap_or_default().get();
                     result.push((first_name, middle_name, last_name, nickname));
                 }                
             }
@@ -192,10 +179,10 @@ impl FictionBook {
         if let Some(ref description) = self.description {            
             if let Some(ref document_info) = description.document_info {
                 for author in &document_info.authors {
-                    let first_name = author.first_name.clone().unwrap_or_default().text;
-                    let middle_name = author.middle_name.clone().unwrap_or_default().text;
-                    let last_name = author.last_name.clone().unwrap_or_default().text;
-                    let nickname = author.nickname.clone().unwrap_or_default().text;
+                    let first_name = author.first_name.clone().unwrap_or_default().get();
+                    let middle_name = author.middle_name.clone().unwrap_or_default().get();
+                    let last_name = author.last_name.clone().unwrap_or_default().get();
+                    let nickname = author.nickname.clone().unwrap_or_default().get();
                     result.push((first_name, middle_name, last_name, nickname));
                 }                
             }

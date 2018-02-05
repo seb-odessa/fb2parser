@@ -47,20 +47,6 @@ pub struct Author {
     pub last_name: Option<LastName>,
     pub nickname: Option<Nickname>,
 }
-impl Author {
-    pub fn get_full_name(&self) -> String {
-        let name = format!("{} {} {}"
-            , self.first_name.clone().unwrap_or_default().text
-            , self.middle_name.clone().unwrap_or_default().text
-            , self.last_name.clone().unwrap_or_default().text
-        );
-        if name.is_empty() {
-            return self.nickname.clone().unwrap_or_default().text;
-        } else {
-            return name;
-        }
-    }
-}
 impl HasFrom<Author> for Author {
     fn from(element: &Option<&Element>) -> Option<Self> {
         if let Some(node) = *element {
