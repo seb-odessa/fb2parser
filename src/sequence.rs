@@ -40,6 +40,11 @@ pub struct Sequence {
     pub name: String,
     pub number: u32,
 }
+impl Sequence {
+    pub fn get(&self)->String {
+        String::from(self.name.trim())
+    }
+}
 impl HasFrom<Sequence> for Sequence {
     fn from(element: &Option<&Element>) -> Option<Self> {
         if let Some(ref node) = *element {
