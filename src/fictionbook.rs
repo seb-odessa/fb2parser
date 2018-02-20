@@ -151,7 +151,7 @@ impl FictionBook {
         if let Some(ref description) = self.description {
             if let Some(ref title_info) = description.title_info {
                 for value in &title_info.sequences {
-                    result.push((value.name.clone(), value.number));
+                    result.push((value.get_name(), value.get_number()));
                 }
             }
         }
@@ -343,7 +343,6 @@ mod tests {
             fb.get_book_translators()
         );
         assert_eq!(vec![(String::from("Вавилон"), 5)],fb.get_book_sequences());
-        assert_eq!(vec![String::from("Вавилон - 5")],fb.get_book_sequences_desc());
     }
 
 

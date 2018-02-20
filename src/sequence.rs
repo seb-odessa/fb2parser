@@ -41,8 +41,11 @@ pub struct Sequence {
     pub number: u32,
 }
 impl Sequence {
-    pub fn get(&self)->String {
+    pub fn get_name(&self)->String {
         String::from(self.name.trim())
+    }
+    pub fn get_number(&self)->u32 {
+        self.number
     }
 }
 impl HasFrom<Sequence> for Sequence {
