@@ -40,7 +40,7 @@ use xmltree::Element;
 use {FirstName, MiddleName, LastName, Nickname};
 use util::{HasFrom, from};
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub struct Author {
     pub first_name: Option<FirstName>,
     pub middle_name: Option<MiddleName>,

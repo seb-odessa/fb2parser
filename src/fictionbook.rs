@@ -33,7 +33,7 @@ use xmltree::{Element, ParseError};
 use Description;
 use util::from;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub struct FictionBook {
     pub description: Option<Description>,
 }
@@ -312,6 +312,7 @@ impl fmt::Display for FictionBook {
 mod tests {
     use tests::XML;
     use FictionBook;
+    use bincode::{serialize, deserialize};
 
     #[test]
     fn new() {
@@ -376,4 +377,14 @@ mod tests {
         assert_eq!("ISBN 1-58182-008-9",fb.get_publish_isbn());
         assert_eq!(vec![(String::from("Серия Вавилон"), 5)],fb.get_publish_sequences());    
     }
+
+    #[test]
+    fn test_serialize() {
+        let fb = FictionBook::new(XML.as_bytes()).unwrap();
+        let encoded: Vec<u8> = serialize(&fb).unwrap();
+        assert_eq!(812, encoded.len());
+        let restored: FictionBook = deserialize(&encoded[..]).unwrap();
+        assert_eq!(fb, restored);
+    }
+
 }

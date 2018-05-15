@@ -47,7 +47,7 @@ use xmltree::Element;
 use util::{HasFrom, from};
 use {FirstName, MiddleName, LastName, Nickname};
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub struct Publisher {
     pub text: String,
     pub first_name: Option<FirstName>,

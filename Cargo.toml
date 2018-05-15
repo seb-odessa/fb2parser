@@ -4,4 +4,7 @@ version = "0.3.0"
 authors = ["seb@kickseed <seb@kickseed>"]
 
 [dependencies]
-    xmltree = "*"
+    xmltree = "0.7.0"
+    bincode = "1.0.0"
+    serde = "*"
+    serde_derive = "*"

@@ -42,7 +42,7 @@ use xmltree::Element;
 use {Genre, Author, Translator, Sequence, BookTitle, Lang, Date, SrcLang};
 use util::{HasFrom, all_from, from};
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub struct TitleInfo {
     pub genres: Vec<Genre>,
     pub authors: Vec<Author>,

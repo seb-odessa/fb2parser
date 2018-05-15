@@ -2,6 +2,10 @@
 
 #[cfg(bench)]
 extern crate test;
+
+#[macro_use]
+extern crate serde_derive;
+extern crate bincode;
 extern crate xmltree;
 
 pub mod util;

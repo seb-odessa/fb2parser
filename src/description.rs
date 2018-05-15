@@ -41,7 +41,7 @@ use DocumentInfo;
 use PublishInfo;
 use util::{HasFrom, from};
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub struct Description {
     pub title_info: Option<TitleInfo>,
     pub document_info: Option<DocumentInfo>,

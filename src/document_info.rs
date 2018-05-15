@@ -38,7 +38,7 @@ use xmltree::Element;
 use {Author, ProgramUsed, Date, Publisher};
 use util::{HasFrom, all_from, from};
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub struct DocumentInfo{
     pub authors: Vec<Author>,
     pub program_used: Option<ProgramUsed>,
