@@ -26,7 +26,7 @@ use std::fmt;
 use xmltree::Element;
 use util::HasFrom;
 
-#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
 pub struct City {
     pub text: String,
 }

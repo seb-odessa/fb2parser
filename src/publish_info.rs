@@ -35,7 +35,7 @@ use xmltree::Element;
 use {BookName, Publisher, City, Year, Isbn, Sequence};
 use util::{HasFrom, all_from, from};
 
-#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
 pub struct PublishInfo {
     pub book_name: Option<BookName>,
     pub publisher: Option<Publisher>,

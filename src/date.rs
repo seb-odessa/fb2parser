@@ -35,7 +35,7 @@ use xmltree::Element;
 use util::HasFrom;
 
 
-#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
 pub struct Date {
     pub value: String,
     pub text: String,
