@@ -2,7 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3606d416-512a-45a5-8e0f-5241969c6ea0" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fb2parser.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/fb2parser.ipr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fb2parser.iws" beforeDir="false" afterPath="$PROJECT_DIR$/fb2parser.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/author.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/author.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/book_name.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/book_name.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/book_title.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/book_title.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/city.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/city.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/date.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/date.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/description.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/description.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/document_info.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/document_info.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fictionbook.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/fictionbook.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/first_name.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/first_name.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/genre.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/genre.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/isbn.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/isbn.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lang.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lang.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/last_name.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/last_name.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middle_name.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/middle_name.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nickname.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/nickname.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/program_used.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/program_used.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/publish_info.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/publish_info.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/publisher.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/publisher.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sequence.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/sequence.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/src_lang.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/src_lang.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/title_info.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/title_info.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/translator.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/translator.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/year.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/year.rs" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -14,12 +38,21 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="fictionbook.rs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fictionbook.rs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1849">
-              <caret line="382" column="34" selection-start-line="382" selection-start-column="34" selection-end-line="382" selection-end-column="34" />
+            <state relative-caret-position="178">
+              <caret line="35" column="55" selection-start-line="35" selection-start-column="55" selection-end-line="35" selection-end-column="55" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="description.rs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/description.rs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="43" column="59" selection-start-line="43" selection-start-column="59" selection-end-line="43" selection-end-column="59" />
             </state>
           </provider>
         </entry>
@@ -27,32 +60,22 @@
       <file leaf-file-name="first_name.rs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/first_name.rs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="30" selection-start-line="30" selection-end-line="30" selection-end-column="67" />
+            <state relative-caret-position="450">
+              <caret line="30" selection-start-line="30" selection-end-line="30" selection-end-column="77" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="util.rs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/util.rs">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="lib.rs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/lib.rs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
+            <state relative-caret-position="1350">
               <caret line="90" selection-start-line="90" selection-end-line="90" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="description.rs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/description.rs">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="Cargo.toml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Cargo.toml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Cargo.toml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="105">
@@ -67,10 +90,13 @@
     <findStrings>
       <find>#[derive(Debug, PartialEq)]</find>
       <find>#[derive(Debug, PartialEq, Default, Clone)]</find>
+      <find>PartialEq</find>
+      <find>PartialEq, Eq</find>
     </findStrings>
     <replaceStrings>
       <replace>#[derive(Debug, Serialize, Deserialize, PartialEq)]</replace>
       <replace>#[derive(Debug, Serialize, Deserialize, PartialEq, Default, Clone)]</replace>
+      <replace>PartialEq, Eq, Hash</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -81,8 +107,9 @@
       <list>
         <option value="$PROJECT_DIR$/src/first_name.rs" />
         <option value="$PROJECT_DIR$/src/lib.rs" />
-        <option value="$PROJECT_DIR$/src/fictionbook.rs" />
         <option value="$PROJECT_DIR$/Cargo.toml" />
+        <option value="$PROJECT_DIR$/src/fictionbook.rs" />
+        <option value="$PROJECT_DIR$/src/description.rs" />
       </list>
     </option>
   </component>
@@ -96,6 +123,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -113,10 +141,10 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/fb2parser.ipr" />
     <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
   </component>
   <component name="RunDashboard">
@@ -154,26 +182,41 @@
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
     </configuration>
   </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3606d416-512a-45a5-8e0f-5241969c6ea0" name="Default" comment="" />
+      <created>1526535079842</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1526535079842</updated>
+    </task>
+    <servers />
+  </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="-11" width="1368" height="780" extended-state="6" />
+    <frame x="-1" y="25" width="1922" height="1059" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Cargo" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" visible="true" weight="0.32917318" />
+      <window_info anchor="right" id="Cargo" order="3" />
+      <window_info id="DB Browser" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="bottom" id="DB Execution Console" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info id="Designer" />
+      <window_info anchor="bottom" id="Version Control" order="7" visible="true" weight="0.3294979" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info id="Designer" order="2" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -183,33 +226,24 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/sequence.rs">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/src/fictionbook.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5730">
+          <caret line="382" column="34" selection-start-line="382" selection-start-column="34" selection-end-line="382" selection-end-column="34" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/first_name.rs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
+        <state relative-caret-position="450">
           <caret line="30" selection-start-line="30" selection-end-line="30" selection-end-column="67" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/util.rs">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/description.rs">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/lib.rs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
+        <state relative-caret-position="1350">
           <caret line="90" selection-start-line="90" selection-end-line="90" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/fictionbook.rs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1849">
-          <caret line="382" column="34" selection-start-line="382" selection-start-column="34" selection-end-line="382" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -217,6 +251,41 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/first_name.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" selection-start-line="30" selection-end-line="30" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/lib.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1350">
+          <caret line="90" selection-start-line="90" selection-end-line="90" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cargo.toml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fictionbook.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="35" column="55" selection-start-line="35" selection-start-column="55" selection-end-line="35" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/description.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="43" column="59" selection-start-line="43" selection-start-column="59" selection-end-line="43" selection-end-column="59" />
         </state>
       </provider>
     </entry>

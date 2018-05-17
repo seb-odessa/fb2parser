@@ -44,7 +44,7 @@ use xmltree::Element;
 use {FirstName, MiddleName, LastName, Nickname};
 use util::{HasFrom, from};
 
-#[derive(Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash)]
 pub struct Translator {
     pub first_name: Option<FirstName>,
     pub middle_name: Option<MiddleName>,

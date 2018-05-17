@@ -31,7 +31,7 @@ use xmltree::Element;
 use util::HasFrom;
 
 
-#[derive(Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash)]
 pub struct ProgramUsed {
     pub text: String,
 }
