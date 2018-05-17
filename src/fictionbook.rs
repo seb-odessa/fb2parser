@@ -33,7 +33,7 @@ use xmltree::{Element, ParseError};
 use Description;
 use util::from;
 
-#[derive(Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Default)]
 pub struct FictionBook {
     pub description: Option<Description>,
 }
