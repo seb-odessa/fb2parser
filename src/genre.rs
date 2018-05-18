@@ -33,7 +33,7 @@ use xmltree::Element;
 use util::HasFrom;
 
 
-#[derive(Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
 pub struct Genre {
     pub text: String,
 }

@@ -30,7 +30,7 @@ use std::fmt;
 use xmltree::Element;
 use util::HasFrom;
 
-#[derive(Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
 pub struct BookTitle {
     pub text: String,
 }
