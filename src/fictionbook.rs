@@ -28,6 +28,7 @@
 Поскольку является корневым элементом, то никому не подчинен.
 *********************************************************************************************/
 
+use bincode;
 use std::fmt;
 use xmltree::{Element, ParseError};
 use Description;
@@ -44,6 +45,15 @@ impl FictionBook {
             Err(e) => Err(e),
         }
     }
+
+    pub fn save(&self) -> Option<Vec<u8>> {
+        bincode::serialize(&self).ok()
+    }
+
+    pub fn load(bytes: &Vec<u8>) -> Option<Self> {
+        bincode::deserialize(&bytes[..]).ok()
+    }
+
 
     #[allow(dead_code)]
     pub fn get_book_genres(&self) -> Vec<String> {
@@ -312,7 +322,7 @@ impl fmt::Display for FictionBook {
 mod tests {
     use tests::XML;
     use FictionBook;
-    use bincode::{serialize, deserialize};
+
 
     #[test]
     fn new() {
@@ -381,9 +391,9 @@ mod tests {
     #[test]
     fn test_serialize() {
         let fb = FictionBook::new(XML.as_bytes()).unwrap();
-        let encoded: Vec<u8> = serialize(&fb).unwrap();
+        let encoded: Vec<u8> = fb.save().unwrap();
         assert_eq!(812, encoded.len());
-        let restored: FictionBook = deserialize(&encoded[..]).unwrap();
+        let restored: FictionBook = FictionBook::load(&encoded).unwrap();
         assert_eq!(fb, restored);
     }
 
