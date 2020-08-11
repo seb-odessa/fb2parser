@@ -110,6 +110,51 @@ impl Fb2Node for FictionBook {
         return None;
     }
 }
+impl FictionBook {
+    pub fn get_title_ref(&self) -> &TitleInfo {
+        &self.description.title_info
+    }
+    pub fn get_publish(&self) -> PublishInfo {
+        self.description.publish_info.clone().unwrap_or_default()
+    }    
+    pub fn get_genres(&self) -> Vec<Genre> {
+        self.get_title_ref().genres.clone()
+    }
+    pub fn get_authors(&self) -> Vec<Author> {
+        self.get_title_ref().authors.clone()
+    }
+    pub fn get_title(&self) -> String {
+        self.get_title_ref().book_title.clone().unwrap_or_default().text
+    }
+    pub fn get_date(&self) -> Option<Date> {
+        self.get_title_ref().date.clone()
+    }
+    pub fn get_lang(&self) -> Option<Lang> {
+        self.get_title_ref().lang.clone()
+    }
+    pub fn get_translators(&self) -> Vec<Translator> {
+        self.get_title_ref().translators.clone()
+    }
+    pub fn get_sequences(&self) -> Vec<Sequence> {
+        self.get_title_ref().sequences.clone()
+    }
+    pub fn get_book_name(&self) -> Option<String> {
+        self.get_publish().book_name.map(|a| a.text)
+    }
+    pub fn get_book_publisher(&self) ->Option<String> {
+        self.get_publish().publisher.map(|a| a.text)
+    }
+    pub fn get_book_year(&self) ->Option<String> {
+        self.get_publish().year.map(|a| a.text)
+    }
+    pub fn get_book_isbn(&self) ->Option<String> {
+        self.get_publish().isbn.map(|a| a.text)
+    }
+    pub fn get_book_sequences(&self) -> Vec<Sequence> {
+        self.get_publish().sequences
+    }
+}
+
 
 #[cfg(test)]
 mod fictionbook {
@@ -174,9 +219,9 @@ mod fictionbook {
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
 pub struct Description {
     pub title_info: TitleInfo,
-    pub src_title_info: Vec<SrcTitleInfo>,
+    pub src_title_info: Option<SrcTitleInfo>,
     pub document_info: DocumentInfo,
-    pub publish_info: Vec<PublishInfo>,
+    pub publish_info: Option<PublishInfo>,
     pub custom_info: Vec<CustomInfo>,
     pub output: Vec<Output>,
 }
@@ -188,9 +233,9 @@ impl Fb2Node for Description {
                 if let Some(document_info) = query_one(element) {
                     return Some(Description{
                         title_info: title_info,
-                        src_title_info: query_subitems(element),
+                        src_title_info: query_one(element),
                         document_info: document_info,
-                        publish_info: query_subitems(element),
+                        publish_info: query_one(element),
                         custom_info: query_subitems(element),
                         output: query_subitems(element)
                     });                        
@@ -280,13 +325,13 @@ impl Fb2Node for Binary {
 pub struct TitleInfo{
     pub genres: Vec<Genre>,
     pub authors: Vec<Author>,
-    pub book_title: BookTitle,
+    pub book_title: Option<BookTitle>,
     pub annotations: Vec<Annotation>,
     pub keywords: Vec<Keywords>,
-    pub date: Vec<Date>,
-    pub coverpage: Vec<Coverpage>,
-    pub lang: Vec<Lang>,
-    pub src_lang: Vec<SrcLang>,
+    pub date: Option<Date>,
+    pub coverpage: Option<Coverpage>,
+    pub lang: Option<Lang>,
+    pub src_lang: Option<SrcLang>,
     pub translators: Vec<Translator>,
     pub sequences: Vec<Sequence>,
 }
@@ -294,21 +339,19 @@ impl Fb2Node for TitleInfo {
     const NAME: &'static str = "title-info";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            if let Some(book_title) = query_one(element) {
-                return Some(Self {
-                    genres: query_subitems(element),
-                    authors: query_subitems(element),
-                    book_title: book_title,
-                    annotations: query_subitems(element),
-                    keywords: query_subitems(element),
-                    date: query_subitems(element),
-                    coverpage: query_subitems(element),
-                    lang: query_subitems(element),
-                    src_lang: query_subitems(element),
-                    translators: query_subitems(element),
-                    sequences: query_subitems(element),
-                })
-            }            
+            return Some(Self {
+                genres: query_subitems(element),
+                authors: query_subitems(element),
+                book_title: query_one(element),
+                annotations: query_subitems(element),
+                keywords: query_subitems(element),
+                date: query_one(element),
+                coverpage: query_one(element),
+                lang: query_one(element),
+                src_lang: query_one(element),
+                translators: query_subitems(element),
+                sequences: query_subitems(element),
+            })
         }
         return None;
     }
@@ -434,24 +477,24 @@ impl Fb2Node for DocumentInfo {
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
 pub struct PublishInfo{
-    pub book_name: Vec<BookName>,
-    pub publisher: Vec<Publisher>,
-    pub city: Vec<City>,
-    pub year: Vec<Year>,
-    pub isbn: Vec<Isbn>,
-    pub sequence: Vec<Sequence>,
+    pub book_name: Option<BookName>,
+    pub publisher: Option<Publisher>,
+    pub city: Option<City>,
+    pub year: Option<Year>,
+    pub isbn: Option<Isbn>,
+    pub sequences: Vec<Sequence>,
 }
 impl Fb2Node for PublishInfo {
     const NAME: &'static str = "publish-info";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
             return Some(Self {
-                book_name: query_subitems(element),
-                publisher: query_subitems(element),
-                city: query_subitems(element),
-                year: query_subitems(element),
-                isbn: query_subitems(element),
-                sequence: query_subitems(element),
+                book_name: query_one(element),
+                publisher: query_one(element),
+                city: query_one(element),
+                year: query_one(element),
+                isbn: query_one(element),
+                sequences: query_subitems(element),
             })
         }
         return None;
@@ -513,26 +556,26 @@ mod genre {
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
 pub struct Author {
-    pub first_names: Vec<FirstName>,
-    pub middle_names: Vec<MiddleName>,
-    pub last_names: Vec<LastName>,
-    pub nicknames: Vec<NickName>,
+    pub first_name: Option<FirstName>,
+    pub middle_name: Option<MiddleName>,
+    pub last_name: Option<LastName>,
+    pub nickname: Option<NickName>,
     pub homepages: Vec<HomePage>,
     pub emails: Vec<Email>,
-    pub ids: Vec<Id>,
+    pub id: Option<Id>,
 }
 impl Fb2Node for Author {
     const NAME: &'static str = "author";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
             return Some(Self {
-                first_names: query_subitems(element),
-                middle_names: query_subitems(element),
-                last_names: query_subitems(element),
-                nicknames: query_subitems(element),
+                first_name: query_one(element),
+                middle_name: query_one(element),
+                last_name: query_one(element),
+                nickname: query_one(element),
                 homepages: query_subitems(element),
                 emails: query_subitems(element),
-                ids: query_subitems(element),
+                id: query_one(element),
             })            
         }
         return None;
@@ -540,16 +583,16 @@ impl Fb2Node for Author {
 }
 impl Author {
     pub fn get_first_name(&self) -> String {
-        self.first_names.iter().nth(0).cloned().map(|v| v.text).unwrap_or_default()
+        self.first_name.clone().map(|v| v.text).unwrap_or_default()
     }
     pub fn get_middle_name(&self) -> String {
-        self.middle_names.iter().nth(0).cloned().map(|v| v.text).unwrap_or_default()
+        self.middle_name.clone().map(|v| v.text).unwrap_or_default()
     }
     pub fn get_last_name(&self) -> String {
-        self.last_names.iter().nth(0).cloned().map(|v| v.text).unwrap_or_default()
+        self.last_name.clone().map(|v| v.text).unwrap_or_default()
     }
     pub fn get_nickname(&self) -> String {
-        self.nicknames.iter().nth(0).cloned().map(|v| v.text).unwrap_or_default()
+        self.nickname.clone().map(|v| v.text).unwrap_or_default()
     }
     pub fn get_homepages(&self) -> Vec<String> {
         self.homepages.iter().map(|v| v.text.clone()).collect()
@@ -558,32 +601,32 @@ impl Author {
         self.emails.iter().map(|v| v.text.clone()).collect()
     }
     pub fn get_id(&self) -> String {
-        self.ids.iter().nth(0).cloned().map(|v| v.text).unwrap_or_default()
+        self.id.clone().map(|v| v.text).unwrap_or_default()
     }    
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
 pub struct Translator {
-    pub first_names: Vec<FirstName>,
-    pub middle_names: Vec<MiddleName>,
-    pub last_names: Vec<LastName>,
-    pub nicknames: Vec<NickName>,
+    pub first_name: Option<FirstName>,
+    pub middle_name: Option<MiddleName>,
+    pub last_name: Option<LastName>,
+    pub nickname: Option<NickName>,
     pub homepages: Vec<HomePage>,
     pub emails: Vec<Email>,
-    pub ids: Vec<Id>,
+    pub id: Option<Id>,
 }
 impl Fb2Node for Translator {
     const NAME: &'static str = "translator";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
             return Some(Self {
-                first_names: query_subitems(element),
-                middle_names: query_subitems(element),
-                last_names: query_subitems(element),
-                nicknames: query_subitems(element),
+                first_name: query_one(element),
+                middle_name: query_one(element),
+                last_name: query_one(element),
+                nickname: query_one(element),
                 homepages: query_subitems(element),
                 emails: query_subitems(element),
-                ids: query_subitems(element),
+                id: query_one(element),
             })            
         }
         return None;
@@ -591,16 +634,16 @@ impl Fb2Node for Translator {
 }
 impl Translator {
     pub fn get_first_name(&self) -> String {
-        self.first_names.iter().nth(0).cloned().map(|v| v.text).unwrap_or_default()
+        self.first_name.clone().map(|v| v.text).unwrap_or_default()
     }
     pub fn get_middle_name(&self) -> String {
-        self.middle_names.iter().nth(0).cloned().map(|v| v.text).unwrap_or_default()
+        self.middle_name.clone().map(|v| v.text).unwrap_or_default()
     }
     pub fn get_last_name(&self) -> String {
-        self.last_names.iter().nth(0).cloned().map(|v| v.text).unwrap_or_default()
+        self.last_name.clone().map(|v| v.text).unwrap_or_default()
     }
     pub fn get_nickname(&self) -> String {
-        self.nicknames.iter().nth(0).cloned().map(|v| v.text).unwrap_or_default()
+        self.nickname.clone().map(|v| v.text).unwrap_or_default()
     }
     pub fn get_homepages(&self) -> Vec<String> {
         self.homepages.iter().map(|v| v.text.clone()).collect()
@@ -609,7 +652,7 @@ impl Translator {
         self.emails.iter().map(|v| v.text.clone()).collect()
     }
     pub fn get_id(&self) -> String {
-        self.ids.iter().nth(0).cloned().map(|v| v.text).unwrap_or_default()
+        self.id.clone().map(|v| v.text).unwrap_or_default()
     }    
 }
 
