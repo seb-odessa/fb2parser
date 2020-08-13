@@ -413,8 +413,8 @@ pub struct SrcTitleInfo{
     pub keywords: Vec<Keywords>,
     pub date: Vec<Date>,
     pub coverpage: Vec<Coverpage>,
-    pub lang: Vec<Lang>,
-    pub src_lang: Vec<SrcLang>,
+    pub lang: Option<Lang>,
+    pub src_lang: Option<SrcLang>,
     pub translators: Vec<Translator>,
     pub sequences: Vec<Sequence>,
 }
@@ -431,8 +431,8 @@ impl Fb2Node for SrcTitleInfo {
                     keywords: query_subitems(element),
                     date: query_subitems(element),
                     coverpage: query_subitems(element),
-                    lang: query_subitems(element),
-                    src_lang: query_subitems(element),
+                    lang: query_one(element),
+                    src_lang: query_one(element),
                     translators: query_subitems(element),
                     sequences: query_subitems(element),
                 })
