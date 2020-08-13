@@ -389,8 +389,8 @@ mod title_info {
         assert_eq!("detective", payload.genres[1].text);
         assert_eq!(20, payload.genres[1].matching);
         assert_eq!(2, payload.authors.len());
-        assert_eq!("Heinlein", payload.authors[0].get_last_name());
-        assert_eq!("Bradbury", payload.authors[1].get_last_name());
+        assert_eq!("Heinlein", payload.authors[0].get_last_name().unwrap_or_default());
+        assert_eq!("Bradbury", payload.authors[1].get_last_name().unwrap_or_default());
     }
 
     #[test]
@@ -582,17 +582,17 @@ impl Fb2Node for Author {
     }
 }
 impl Author {
-    pub fn get_first_name(&self) -> String {
-        self.first_name.clone().map(|v| v.text).unwrap_or_default()
+    pub fn get_first_name(&self) -> Option<String> {
+        self.first_name.clone().map(|v| v.text)
     }
-    pub fn get_middle_name(&self) -> String {
-        self.middle_name.clone().map(|v| v.text).unwrap_or_default()
+    pub fn get_middle_name(&self) -> Option<String> {
+        self.middle_name.clone().map(|v| v.text)
     }
-    pub fn get_last_name(&self) -> String {
-        self.last_name.clone().map(|v| v.text).unwrap_or_default()
+    pub fn get_last_name(&self) -> Option<String> {
+        self.last_name.clone().map(|v| v.text)
     }
-    pub fn get_nickname(&self) -> String {
-        self.nickname.clone().map(|v| v.text).unwrap_or_default()
+    pub fn get_nickname(&self) -> Option<String> {
+        self.nickname.clone().map(|v| v.text)
     }
     pub fn get_homepages(&self) -> Vec<String> {
         self.homepages.iter().map(|v| v.text.clone()).collect()
@@ -600,8 +600,8 @@ impl Author {
     pub fn get_emails(&self) -> Vec<String> {
         self.emails.iter().map(|v| v.text.clone()).collect()
     }
-    pub fn get_id(&self) -> String {
-        self.id.clone().map(|v| v.text).unwrap_or_default()
+    pub fn get_id(&self) -> Option<String> {
+        self.id.clone().map(|v| v.text)
     }    
 }
 
@@ -633,17 +633,17 @@ impl Fb2Node for Translator {
     }
 }
 impl Translator {
-    pub fn get_first_name(&self) -> String {
-        self.first_name.clone().map(|v| v.text).unwrap_or_default()
+    pub fn get_first_name(&self) -> Option<String> {
+        self.first_name.clone().map(|v| v.text)
     }
-    pub fn get_middle_name(&self) -> String {
-        self.middle_name.clone().map(|v| v.text).unwrap_or_default()
+    pub fn get_middle_name(&self) -> Option<String> {
+        self.middle_name.clone().map(|v| v.text)
     }
-    pub fn get_last_name(&self) -> String {
-        self.last_name.clone().map(|v| v.text).unwrap_or_default()
+    pub fn get_last_name(&self) -> Option<String> {
+        self.last_name.clone().map(|v| v.text)
     }
-    pub fn get_nickname(&self) -> String {
-        self.nickname.clone().map(|v| v.text).unwrap_or_default()
+    pub fn get_nickname(&self) -> Option<String> {
+        self.nickname.clone().map(|v| v.text)
     }
     pub fn get_homepages(&self) -> Vec<String> {
         self.homepages.iter().map(|v| v.text.clone()).collect()
@@ -651,9 +651,9 @@ impl Translator {
     pub fn get_emails(&self) -> Vec<String> {
         self.emails.iter().map(|v| v.text.clone()).collect()
     }
-    pub fn get_id(&self) -> String {
-        self.id.clone().map(|v| v.text).unwrap_or_default()
-    }    
+    pub fn get_id(&self) -> Option<String> {
+        self.id.clone().map(|v| v.text)
+    }  
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
@@ -774,15 +774,15 @@ mod author {
         let obj = Element::parse(xml.as_bytes()).map_or(None, |element| Author::new(&element));
         assert!(obj.is_some());
         let payload = obj.unwrap();
-        assert_eq!("Robert", payload.get_first_name());
-        assert_eq!("Anson", payload.get_middle_name());
-        assert_eq!("Heinlein", payload.get_last_name());
-        assert_eq!("Heinlein", payload.get_nickname());
+        assert_eq!("Robert", payload.get_first_name().unwrap_or_default());
+        assert_eq!("Anson", payload.get_middle_name().unwrap_or_default());
+        assert_eq!("Heinlein", payload.get_last_name().unwrap_or_default());
+        assert_eq!("Heinlein", payload.get_nickname().unwrap_or_default());
         assert!(!payload.get_homepages().is_empty());
         assert_eq!("example.com", payload.get_homepages()[0]);
         assert!(!payload.get_emails().is_empty());
         assert_eq!("example@example.com", payload.get_emails()[0]);
-        assert_eq!("42", payload.get_id());
+        assert_eq!("42", payload.get_id().unwrap_or_default());
     }
 
     #[test]
