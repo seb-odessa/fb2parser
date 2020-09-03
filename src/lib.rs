@@ -229,7 +229,7 @@ mod fictionbook {
 pub struct Description {
     pub title_info: TitleInfo,
     pub src_title_info: Option<SrcTitleInfo>,
-    pub document_info: DocumentInfo,
+    pub document_info: Option<DocumentInfo>,
     pub publish_info: Option<PublishInfo>,
     pub custom_info: Vec<CustomInfo>,
     pub output: Vec<Output>,
@@ -239,16 +239,14 @@ impl Fb2Node for Description {
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
             if let Some(title_info) = query_one(element) {
-                if let Some(document_info) = query_one(element) {
-                    return Some(Description{
-                        title_info: title_info,
-                        src_title_info: query_one(element),
-                        document_info: document_info,
-                        publish_info: query_one(element),
-                        custom_info: query_subitems(element),
-                        output: query_subitems(element)
-                    });                        
-                }
+                return Some(Description{
+                    title_info: title_info,
+                    src_title_info: query_one(element),
+                    document_info: query_one(element),
+                    publish_info: query_one(element),
+                    custom_info: query_subitems(element),
+                    output: query_subitems(element)
+                });
             }
         } 
         return None;
@@ -294,22 +292,6 @@ mod description {
         "##;
         assert!(FictionBook::try_from(xml.as_bytes()).is_err());
     }
-    #[test]
-    fn parse_wo_document_info() {
-        let xml = r##"
-        <FictionBook xmlns="http://www.gribuser.ru/xml/fictionbook/2.0" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <description>
-            <title-info>    <!--IGNORE--></title-info> 
-            <src-title-info><!--IGNORE--></src-title-info>
-            <publish-info>  <!--IGNORE--></publish-info>
-            <custom-info>   <!--IGNORE--></custom-info>
-            <output>        <!--IGNORE--></output>
-        </description>
-        <body><!--IGNORE--></body>
-        </FictionBook>
-        "##;
-        assert!(FictionBook::try_from(xml.as_bytes()).is_err());
-    }    
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
