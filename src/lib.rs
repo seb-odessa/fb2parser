@@ -51,6 +51,15 @@ trait Fb2Node {
     fn get_first_text(element: &xmltree::Element) -> String {
         Self::get_text(element).into_iter().nth(0).unwrap_or_default()
     }
+
+    fn get_capitalized_text(element: &xmltree::Element) -> String {
+        let text = Self::get_first_text(element).to_lowercase();
+        let mut c = text.chars();
+        match c.next() {
+            None => String::new(),
+            Some(f) => f.to_uppercase().collect::<String>() + c.as_str(),
+        }
+    }
 }
 
 /// query items of type T from the xmltree::Element
@@ -368,8 +377,8 @@ mod title_info {
                 <genre match="42">western</genre>
                 <genre match="20">detective</genre>
                 <author>
-                    <first-name>Robert</first-name>
-                    <middle-name>Anson</middle-name>
+                    <first-name>robert</first-name>
+                    <middle-name>ANSON</middle-name>
                     <last-name>Heinlein</last-name>
                 </author>
                 <author>
@@ -664,7 +673,7 @@ impl Fb2Node for FirstName {
     const NAME: &'static str = "first-name";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_capitalized_text(element) })
         }
         return None;
     }
@@ -678,7 +687,7 @@ impl Fb2Node for MiddleName {
     const NAME: &'static str = "middle-name";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_capitalized_text(element) })
         }
         return None;
     }
@@ -692,7 +701,7 @@ impl Fb2Node for LastName {
     const NAME: &'static str = "last-name";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_capitalized_text(element) })
         }
         return None;
     }
@@ -706,7 +715,7 @@ impl Fb2Node for NickName {
     const NAME: &'static str = "nickname";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_capitalized_text(element) })
         }
         return None;
     }    
