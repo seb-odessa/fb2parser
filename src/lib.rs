@@ -54,11 +54,20 @@ trait Fb2Node {
 
     fn get_capitalized_text(element: &xmltree::Element) -> String {
         let text = Self::get_first_text(element).to_lowercase();
-        let mut c = text.chars();
-        match c.next() {
-            None => String::new(),
-            Some(f) => f.to_uppercase().collect::<String>() + c.as_str(),
+        let mut result = Vec::with_capacity(text.len());
+        let mut capitalize = true;
+        for ch in text.chars() {
+            if capitalize {
+                for c in ch.to_uppercase() {
+                    result.push(c);
+                }
+                capitalize = false;
+            } else {
+                result.push(ch);
+                capitalize = !ch.is_alphabetic();
+            }
         }
+        result.into_iter().collect::<String>()
     }
 }
 
@@ -168,6 +177,36 @@ impl FictionBook {
 #[cfg(test)]
 mod fictionbook {
     use super::*;
+
+    #[test]
+    fn get_capitalized_text() {
+        {
+            let xml = r#"<first-name>Рубеж</first-name>"#;
+            let node = Element::parse(xml.as_bytes()).map_or(None, |e| FirstName::new(&e)).unwrap_or_default();
+            assert_eq!("Рубеж", node.text);    
+        }
+        {
+            let xml = r#"<first-name>рубеж</first-name>"#;
+            let node = Element::parse(xml.as_bytes()).map_or(None, |e| FirstName::new(&e)).unwrap_or_default();
+            assert_eq!("Рубеж", node.text);    
+        }
+        {
+            let xml = r#"<first-name>руб еж</first-name>"#;
+            let node = Element::parse(xml.as_bytes()).map_or(None, |e| FirstName::new(&e)).unwrap_or_default();
+            assert_eq!("Руб Еж", node.text);    
+        }
+        {
+            let xml = r#"<first-name>аль-каддафи</first-name>"#;
+            let node = Element::parse(xml.as_bytes()).map_or(None, |e| FirstName::new(&e)).unwrap_or_default();
+            assert_eq!("Аль-Каддафи", node.text);
+        }
+        {
+            let xml = r#"<first-name>АЛЬ-КАДДАФИ</first-name>"#;
+            let node = Element::parse(xml.as_bytes()).map_or(None, |e| FirstName::new(&e)).unwrap_or_default();
+            assert_eq!("Аль-Каддафи", node.text);
+        }
+
+    }
 
     #[test]
     fn is_ok_element() {
