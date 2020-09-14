@@ -40,20 +40,24 @@ trait Fb2Node {
         }
     }
 
-    fn get_text(element: &xmltree::Element) -> Vec<String> {
+    fn get_text(element: &xmltree::Element) -> String {
         element.children.iter()
             .map(|node| node.as_text())
             .filter(|text|text.is_some())
-            .map(|text| String::from(text.unwrap_or_default()))
-            .collect()
-    }
-
-    fn get_first_text(element: &xmltree::Element) -> String {
-        Self::get_text(element).into_iter().nth(0).unwrap_or_default()
+            .map(|text| 
+                text.unwrap_or_default()
+                .replace("&amp;","&")
+                .replace("&apos;","'")
+                .replace("&lt;","<")
+                .replace("&gt;",">")
+                .replace("&quot;","\"")
+            )
+            .nth(0).
+            unwrap_or_default()
     }
 
     fn get_capitalized_text(element: &xmltree::Element) -> String {
-        let text = Self::get_first_text(element).to_lowercase();
+        let text = Self::get_text(element).to_lowercase();
         let mut result = Vec::with_capacity(text.len());
         let mut capitalize = true;
         for ch in text.chars() {
@@ -61,11 +65,10 @@ trait Fb2Node {
                 for c in ch.to_uppercase() {
                     result.push(c);
                 }
-                capitalize = false;
             } else {
                 result.push(ch);
-                capitalize = !ch.is_alphabetic();
             }
+            capitalize = !ch.is_alphabetic();
         }
         result.into_iter().collect::<String>()
     }
@@ -177,6 +180,25 @@ impl FictionBook {
 #[cfg(test)]
 mod fictionbook {
     use super::*;
+
+    #[test]
+    fn get_text() {
+        {
+            let xml = r#"<first-name>Ру &amp; беж</first-name>"#;
+            let node = Element::parse(xml.as_bytes()).map_or(None, |e| FirstName::new(&e)).unwrap_or_default();
+            assert_eq!("Ру & Беж", node.text);    
+        }
+        {
+            let xml = r#"<first-name>&quot;Рубеж&quot;</first-name>"#;
+            let node = Element::parse(xml.as_bytes()).map_or(None, |e| FirstName::new(&e)).unwrap_or_default();
+            assert_eq!("\"Рубеж\"", node.text);    
+        }
+        {
+            let xml = r#"<first-name>&lt;Рубеж&gt;</first-name>"#;
+            let node = Element::parse(xml.as_bytes()).map_or(None, |e| FirstName::new(&e)).unwrap_or_default();
+            assert_eq!("<Рубеж>", node.text);    
+        }
+    }
 
     #[test]
     fn get_capitalized_text() {
@@ -554,7 +576,7 @@ impl Fb2Node for Genre {
         if Self::ok(element) {
             return Some(Genre {
                 matching: element.attributes.get("match").map(|s| s.parse().unwrap_or(0)).unwrap_or(0),
-                text: Self::get_first_text(element),
+                text: Self::get_text(element),
             })            
         }
         return None;
@@ -750,7 +772,7 @@ impl Fb2Node for HomePage {
     const NAME: &'static str = "home-page";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
@@ -764,7 +786,7 @@ impl Fb2Node for Email {
     const NAME: &'static str = "email";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
@@ -778,7 +800,7 @@ impl Fb2Node for Id {
     const NAME: &'static str = "id";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
@@ -834,7 +856,7 @@ impl Fb2Node for BookTitle {
     const NAME: &'static str = "book-title";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
@@ -848,7 +870,7 @@ impl Fb2Node for BookName {
     const NAME: &'static str = "book-name";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
@@ -868,7 +890,7 @@ impl Fb2Node for Keywords {
     const NAME: &'static str = "keywords";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
@@ -887,7 +909,7 @@ impl Fb2Node for Date {
             return Some(Self {
                 value: element.attributes.get("value").cloned().unwrap_or_default(),
                 lang: element.attributes.get("xml:lang").cloned(),
-                text: Self::get_first_text(element),
+                text: Self::get_text(element),
             })            
         }
         return None;
@@ -924,7 +946,7 @@ impl Fb2Node for Lang {
     const NAME: &'static str = "lang";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
@@ -938,7 +960,7 @@ impl Fb2Node for SrcLang {
     const NAME: &'static str = "src-lang";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
@@ -972,7 +994,7 @@ impl Fb2Node for ProgramUsed {
     const NAME: &'static str = "program-used";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
@@ -986,7 +1008,7 @@ impl Fb2Node for SrcUrl {
     const NAME: &'static str = "src-url";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
@@ -1000,7 +1022,7 @@ impl Fb2Node for SrcOcr {
     const NAME: &'static str = "src-ocr";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
@@ -1014,7 +1036,7 @@ impl Fb2Node for Version {
     const NAME: &'static str = "version";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
@@ -1034,7 +1056,7 @@ impl Fb2Node for Publisher {
     const NAME: &'static str = "publisher";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
@@ -1048,7 +1070,7 @@ impl Fb2Node for City {
     const NAME: &'static str = "city";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
@@ -1062,7 +1084,7 @@ impl Fb2Node for Year {
     const NAME: &'static str = "year";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
@@ -1076,7 +1098,7 @@ impl Fb2Node for Isbn {
     const NAME: &'static str = "isbn";
     fn new(element: &xmltree::Element) -> Option<Self> where Self: std::marker::Sized+Default {
         if Self::ok(element) {
-            return Some(Self { text: Self::get_first_text(element) })
+            return Some(Self { text: Self::get_text(element) })
         }
         return None;
     }
