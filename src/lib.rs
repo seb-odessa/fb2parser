@@ -1,9 +1,9 @@
 //! A simple library for parsing an FB2 data into a rust structure
-//! 
+//!
 //! FictionBook 2.0 Specification: http://gribuser.ru/xml/fictionbook/index.html.en
 //! Shema Comments: http://gribuser.ru/xml/fictionbook/shema_comments.html
 //! Root Node Wiki: http://www.fictionbook.org/index.php/%D0%AD%D0%BB%D0%B5%D0%BC%D0%B5%D0%BD%D1%82_FictionBook
-//! 
+//!
 
 #[cfg(bench)]
 extern crate test;
@@ -44,16 +44,17 @@ trait Fb2Node {
         element.children.iter()
             .map(|node| node.as_text())
             .filter(|text|text.is_some())
-            .map(|text| 
+            .map(|text|
                 text.unwrap_or_default()
+                .trim()
                 .replace("&amp;","&")
                 .replace("&apos;","'")
                 .replace("&lt;","<")
                 .replace("&gt;",">")
                 .replace("&quot;","\"")
             )
-            .nth(0).
-            unwrap_or_default()
+            .nth(0)
+            .unwrap_or_default()
     }
 
     fn get_capitalized_text(element: &xmltree::Element) -> String {
@@ -86,7 +87,7 @@ fn query_subitems<T: Fb2Node+Default>(element: &xmltree::Element) -> Vec<T>
                     } else {
                         return T::new(element);
                     }
-                }                    
+                }
             }
             return None;
         }
@@ -94,7 +95,7 @@ fn query_subitems<T: Fb2Node+Default>(element: &xmltree::Element) -> Vec<T>
 }
 
 fn query_one<T: Fb2Node+Default+Clone>(element: &xmltree::Element) -> Option<T> {
-    
+
     let objs = query_subitems::<T>(element);
     if 1 == objs.len() {
         Some(objs[0].clone())
@@ -137,7 +138,7 @@ impl FictionBook {
     }
     pub fn get_publish(&self) -> PublishInfo {
         self.description.publish_info.clone().unwrap_or_default()
-    }    
+    }
     pub fn get_genres(&self) -> Vec<Genre> {
         self.get_title_ref().genres.clone()
     }
@@ -186,17 +187,17 @@ mod fictionbook {
         {
             let xml = r#"<first-name>Ру &amp; беж</first-name>"#;
             let node = Element::parse(xml.as_bytes()).map_or(None, |e| FirstName::new(&e)).unwrap_or_default();
-            assert_eq!("Ру & Беж", node.text);    
+            assert_eq!("Ру & Беж", node.text);
         }
         {
             let xml = r#"<first-name>&quot;Рубеж&quot;</first-name>"#;
             let node = Element::parse(xml.as_bytes()).map_or(None, |e| FirstName::new(&e)).unwrap_or_default();
-            assert_eq!("\"Рубеж\"", node.text);    
+            assert_eq!("\"Рубеж\"", node.text);
         }
         {
             let xml = r#"<first-name>&lt;Рубеж&gt;</first-name>"#;
             let node = Element::parse(xml.as_bytes()).map_or(None, |e| FirstName::new(&e)).unwrap_or_default();
-            assert_eq!("<Рубеж>", node.text);    
+            assert_eq!("<Рубеж>", node.text);
         }
     }
 
@@ -205,17 +206,17 @@ mod fictionbook {
         {
             let xml = r#"<first-name>Рубеж</first-name>"#;
             let node = Element::parse(xml.as_bytes()).map_or(None, |e| FirstName::new(&e)).unwrap_or_default();
-            assert_eq!("Рубеж", node.text);    
+            assert_eq!("Рубеж", node.text);
         }
         {
             let xml = r#"<first-name>рубеж</first-name>"#;
             let node = Element::parse(xml.as_bytes()).map_or(None, |e| FirstName::new(&e)).unwrap_or_default();
-            assert_eq!("Рубеж", node.text);    
+            assert_eq!("Рубеж", node.text);
         }
         {
             let xml = r#"<first-name>руб еж</first-name>"#;
             let node = Element::parse(xml.as_bytes()).map_or(None, |e| FirstName::new(&e)).unwrap_or_default();
-            assert_eq!("Руб Еж", node.text);    
+            assert_eq!("Руб Еж", node.text);
         }
         {
             let xml = r#"<first-name>аль-каддафи</first-name>"#;
@@ -246,9 +247,9 @@ mod fictionbook {
     fn parse_all_synthetic() {
         let xml = r##"
         <FictionBook xmlns = "http://www.gribuser.ru/xml/fictionbook/2.0" xmlns:xlink = "http://www.w3.org/1999/xlink">
-        <stylesheet> <!--IGNORE--> </stylesheet>         
-        <stylesheet> <!--IGNORE--> </stylesheet> 
-        <description> <!--IGNORE--> </description>        
+        <stylesheet> <!--IGNORE--> </stylesheet>
+        <stylesheet> <!--IGNORE--> </stylesheet>
+        <description> <!--IGNORE--> </description>
         <body> <!--IGNORE--> </body>
         <body> <!--IGNORE--> </body>
         <body> <!--IGNORE--> </body>
@@ -265,12 +266,12 @@ mod fictionbook {
         assert_eq!(3, payload.bodies.len());
         assert_eq!(4, payload.binaries.len());
     }
-    
+
     #[test]
     fn parse_only_description() {
         let xml = r##"
         <FictionBook xmlns = "http://www.gribuser.ru/xml/fictionbook/2.0" xmlns:xlink = "http://www.w3.org/1999/xlink">
-        <description> <!--IGNORE--> </description>        
+        <description> <!--IGNORE--> </description>
         </FictionBook>
         "##;
         assert!(FictionBook::try_from(xml.as_bytes()).is_ok());
@@ -283,7 +284,7 @@ mod fictionbook {
         </FictionBook>
         "##;
         assert!(FictionBook::try_from(xml.as_bytes()).is_err());
-    }    
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
@@ -309,7 +310,7 @@ impl Fb2Node for Description {
                     output: query_subitems(element)
                 });
             }
-        } 
+        }
         return None;
     }
 }
@@ -323,7 +324,7 @@ mod description {
         let xml = r##"
         <FictionBook xmlns="http://www.gribuser.ru/xml/fictionbook/2.0" xmlns:xlink="http://www.w3.org/1999/xlink">
         <description>
-            <title-info>    <!--IGNORE--></title-info> 
+            <title-info>    <!--IGNORE--></title-info>
             <src-title-info><!--IGNORE--></src-title-info>
             <document-info> <!--IGNORE--></document-info>
             <publish-info>  <!--IGNORE--></publish-info>
@@ -488,7 +489,7 @@ impl Fb2Node for SrcTitleInfo {
                     translators: query_subitems(element),
                     sequences: query_subitems(element),
                 })
-            }            
+            }
         }
         return None;
     }
@@ -556,13 +557,13 @@ impl Fb2Node for PublishInfo {
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
 pub struct CustomInfo; // Not Implemented
 impl Fb2Node for CustomInfo {
-    const NAME: &'static str = "custom-info";    
+    const NAME: &'static str = "custom-info";
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
 pub struct Output; // Not Implemented
 impl Fb2Node for Output {
-    const NAME: &'static str = "output";    
+    const NAME: &'static str = "output";
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
@@ -577,7 +578,7 @@ impl Fb2Node for Genre {
             return Some(Genre {
                 matching: element.attributes.get("match").map(|s| s.parse().unwrap_or(0)).unwrap_or(0),
                 text: Self::get_text(element),
-            })            
+            })
         }
         return None;
     }
@@ -628,7 +629,7 @@ impl Fb2Node for Author {
                 homepages: query_subitems(element),
                 emails: query_subitems(element),
                 id: query_one(element),
-            })            
+            })
         }
         return None;
     }
@@ -654,7 +655,7 @@ impl Author {
     }
     pub fn get_id(&self) -> Option<String> {
         self.id.clone().map(|v| v.text)
-    }    
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
@@ -679,7 +680,7 @@ impl Fb2Node for Translator {
                 homepages: query_subitems(element),
                 emails: query_subitems(element),
                 id: query_one(element),
-            })            
+            })
         }
         return None;
     }
@@ -705,7 +706,7 @@ impl Translator {
     }
     pub fn get_id(&self) -> Option<String> {
         self.id.clone().map(|v| v.text)
-    }  
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
@@ -761,7 +762,7 @@ impl Fb2Node for NickName {
             return Some(Self { text: Self::get_capitalized_text(element) })
         }
         return None;
-    }    
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
@@ -821,7 +822,7 @@ mod author {
             <home-page>example.com</home-page>
             <email>example@example.com</email>
             <id>42</id>
-        </author> 
+        </author>
         "#;
         let obj = Element::parse(xml.as_bytes()).map_or(None, |element| Author::new(&element));
         assert!(obj.is_some());
@@ -879,7 +880,7 @@ impl Fb2Node for BookName {
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
 pub struct Annotation; // Not Implemented
 impl Fb2Node for Annotation {
-    const NAME: &'static str = "annotation";    
+    const NAME: &'static str = "annotation";
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
@@ -910,7 +911,7 @@ impl Fb2Node for Date {
                 value: element.attributes.get("value").cloned().unwrap_or_default(),
                 lang: element.attributes.get("xml:lang").cloned(),
                 text: Self::get_text(element),
-            })            
+            })
         }
         return None;
     }
@@ -919,7 +920,7 @@ impl Fb2Node for Date {
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
 pub struct Image;
 impl Fb2Node for Image {
-    const NAME: &'static str = "image";    
+    const NAME: &'static str = "image";
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
@@ -980,7 +981,7 @@ impl Fb2Node for Sequence {
                 name: element.attributes.get("name").cloned().unwrap_or_default(),
                 number: element.attributes.get("number").cloned().unwrap_or_default(),
                 lang: element.attributes.get("xml:lang").cloned(),
-            })            
+            })
         }
         return None;
     }
@@ -1045,7 +1046,7 @@ impl Fb2Node for Version {
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
 pub struct History; // Not Implemented
 impl Fb2Node for History {
-    const NAME: &'static str = "history";    
+    const NAME: &'static str = "history";
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone, Default)]
